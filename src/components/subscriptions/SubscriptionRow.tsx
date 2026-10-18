@@ -18,8 +18,10 @@ export function SubscriptionRow({ subscription: sub, today, onEdit, onToggleStat
   const days = daysUntilRenewal(sub.nextBillingDate, sub.billingCycle, today);
 
   return (
-    <li className="grid gap-3 rounded-xl border border-border bg-surface p-4 sm:grid-cols-[minmax(0,1fr)_8rem_9rem_auto] sm:items-center sm:gap-6">
-      <div className={`min-w-0 ${isPaused ? "opacity-60" : ""}`}>
+    // Layout follows the list's width (container query), not the viewport, because
+    // the sidebar takes space from md up. Narrow: name, then price | date, then actions.
+    <li className="grid grid-cols-2 gap-3 rounded-xl border border-border bg-surface p-4 @2xl:grid-cols-[minmax(0,1fr)_8rem_9rem_auto] @2xl:items-center @2xl:gap-6">
+      <div className={`col-span-2 min-w-0 @2xl:col-span-1 ${isPaused ? "opacity-60" : ""}`}>
         <div className="flex items-center gap-2">
           <h3 className="truncate font-medium">{sub.name}</h3>
           {isPaused && (
@@ -57,7 +59,7 @@ export function SubscriptionRow({ subscription: sub, today, onEdit, onToggleStat
         )}
       </div>
 
-      <div className="flex gap-1 sm:justify-end">
+      <div className="col-span-2 -mx-2 flex gap-1 @2xl:col-span-1 @2xl:mx-0 @2xl:justify-end">
         <Button size="sm" variant="ghost" onClick={onEdit} aria-label={`Edit ${sub.name}`}>
           Edit
         </Button>

@@ -111,7 +111,7 @@ export function SubscriptionsView() {
               <Button onClick={clearFilters}>Clear filters</Button>
             </EmptyState>
           ) : (
-            <ul className="flex flex-col gap-2" aria-label="Subscriptions">
+            <ul className="@container flex flex-col gap-2" aria-label="Subscriptions">
               {visible.map((sub) => (
                 <SubscriptionRow
                   key={sub.id}

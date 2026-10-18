@@ -7,16 +7,16 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const VARIANTS: Record<Variant, string> = {
-  // Primary is ink, not accent: the teal is kept for state (active, focus, data).
-  primary: "bg-foreground text-surface hover:bg-foreground/85",
-  secondary: "border border-border bg-surface hover:border-foreground/30 hover:bg-background",
-  danger: "bg-danger text-on-danger hover:opacity-90",
-  ghost: "text-muted hover:bg-border/50 hover:text-foreground",
+  // A white pill for the main action, as in the dashboard reference; blue is kept for state and data.
+  primary: "bg-foreground text-background hover:bg-foreground/90",
+  secondary: "border border-border bg-surface-2 text-foreground hover:border-muted/40 hover:bg-surface-2/70",
+  danger: "bg-danger text-background hover:bg-danger/90",
+  ghost: "text-muted hover:bg-surface-2 hover:text-foreground",
   "ghost-danger": "text-muted hover:bg-danger-soft hover:text-danger",
 };
 
 const SIZES: Record<Size, string> = {
-  sm: "h-8 px-3 text-xs",
+  sm: "h-8 px-3 text-[13px]",
   md: "h-10 px-4.5 text-sm",
 };
 

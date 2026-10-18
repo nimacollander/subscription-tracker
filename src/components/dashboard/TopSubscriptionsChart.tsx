@@ -4,6 +4,7 @@ import { Bar, BarChart, LabelList, Tooltip, XAxis, YAxis } from "recharts";
 import { ChartTooltip } from "@/components/charts/ChartTooltip";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { ChartIcon } from "@/components/ui/icons";
 import type { SubscriptionCost } from "@/lib/analytics";
 import { formatCurrency } from "@/lib/format";
 
@@ -30,7 +31,7 @@ function NameTick({ x, y, payload }: TickProps) {
 
 export function TopSubscriptionsChart({ data }: { data: SubscriptionCost[] }) {
   return (
-    <Card title="Top subscriptions by monthly cost">
+    <Card title="Most expensive" icon={<ChartIcon />} action={<span className="text-[13px] text-muted">Per month</span>}>
       {data.length === 0 ? (
         <EmptyState message="No active subscriptions to chart." />
       ) : (

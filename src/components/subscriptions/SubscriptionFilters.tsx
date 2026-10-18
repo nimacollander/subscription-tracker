@@ -10,8 +10,8 @@ type SubscriptionFiltersProps = {
 };
 
 const controlClass =
-  "h-11 w-full rounded-xl border border-border bg-background px-3.5 text-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/30";
-const labelClass = "font-label text-muted";
+  "h-11 w-full rounded-xl border border-border bg-surface-2 px-3.5 text-sm outline-none transition placeholder:text-muted/70 focus:border-accent focus:ring-2 focus:ring-accent/30";
+const labelClass = "text-[13px] font-medium text-muted";
 
 export function SubscriptionFilters({ query, categories, counts, onChange }: SubscriptionFiltersProps) {
   const set = <K extends keyof SubscriptionQuery>(key: K, value: SubscriptionQuery[K]) =>
@@ -20,7 +20,7 @@ export function SubscriptionFilters({ query, categories, counts, onChange }: Sub
   return (
     <div
       role="search"
-      className="grid gap-4 rounded-2xl border border-border bg-surface p-5 sm:grid-cols-2 lg:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]"
+      className="grid gap-4 rounded-3xl border border-border bg-surface p-5 sm:grid-cols-2 lg:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]"
     >
       <div className="flex flex-col gap-1.5 sm:col-span-2 lg:col-span-1">
         <label htmlFor="filter-search" className={labelClass}>

@@ -20,7 +20,7 @@ import {
 import type { Subscription, SubscriptionInput } from "@/types/subscription";
 import { SubscriptionFilters } from "./SubscriptionFilters";
 import { SubscriptionFormDialog } from "./SubscriptionFormDialog";
-import { SubscriptionRow } from "./SubscriptionRow";
+import { ROW_COLUMNS, SubscriptionRow } from "./SubscriptionRow";
 
 // Which dialog is open, if any. Holding the whole subscription keeps the
 // dialog content stable even if the list changes underneath it.
@@ -109,18 +109,31 @@ export function SubscriptionsView() {
               <Button onClick={clearFilters}>Clear filters</Button>
             </EmptyState>
           ) : (
-            <ul className="@container flex flex-col gap-2" aria-label="Subscriptions">
-              {visible.map((sub) => (
-                <SubscriptionRow
-                  key={sub.id}
-                  subscription={sub}
-                  today={today}
-                  onEdit={() => setDialog({ type: "edit", subscription: sub })}
-                  onToggleStatus={() => toggleStatus(sub.id)}
-                  onDelete={() => setDialog({ type: "delete", subscription: sub })}
-                />
-              ))}
-            </ul>
+            // One card holding a header and the rows, like a table; rows turn into cards when narrow.
+            <div className="@container overflow-hidden rounded-3xl border border-border bg-surface">
+              <div
+                aria-hidden
+                className={`hidden border-b border-border px-6 py-3 text-xs font-medium tracking-wide text-muted uppercase @3xl:grid @3xl:gap-6 ${ROW_COLUMNS}`}
+              >
+                <span>Service</span>
+                <span>Amount</span>
+                <span>Next billing</span>
+                <span>Status</span>
+                <span className="text-right">Actions</span>
+              </div>
+              <ul aria-label="Subscriptions">
+                {visible.map((sub) => (
+                  <SubscriptionRow
+                    key={sub.id}
+                    subscription={sub}
+                    today={today}
+                    onEdit={() => setDialog({ type: "edit", subscription: sub })}
+                    onToggleStatus={() => toggleStatus(sub.id)}
+                    onDelete={() => setDialog({ type: "delete", subscription: sub })}
+                  />
+                ))}
+              </ul>
+            </div>
           )}
         </>
       )}
@@ -153,10 +166,9 @@ export function SubscriptionsView() {
 
 function ListSkeleton() {
   return (
-    <ul className="flex flex-col gap-2" aria-hidden>
-      {Array.from({ length: 4 }, (_, i) => (
-        <li key={i} className="h-[74px] animate-pulse rounded-xl border border-border bg-surface" />
-      ))}
-    </ul>
+    <div className="flex flex-col gap-5" aria-hidden>
+      <div className="h-[106px] animate-pulse rounded-3xl border border-border bg-surface" />
+      <div className="h-96 animate-pulse rounded-3xl border border-border bg-surface" />
+    </div>
   );
 }

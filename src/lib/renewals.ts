@@ -7,8 +7,11 @@ const MONTHS_PER_CYCLE: Record<Exclude<BillingCycle, "weekly">, number> = {
   yearly: 12,
 };
 
-/** The date `periods` billing cycles after `anchor`. */
-function advance(anchor: string, cycle: BillingCycle, periods: number): string {
+/**
+ * The date `periods` billing cycles after `anchor`. Always count from the
+ * original anchor so month-end dates don't drift (Jan 31 → Feb 28 → Mar 31).
+ */
+export function advanceBillingDate(anchor: string, cycle: BillingCycle, periods: number): string {
   if (cycle === "weekly") return addDays(anchor, periods * 7);
   return addMonths(anchor, periods * MONTHS_PER_CYCLE[cycle]);
 }
@@ -28,10 +31,10 @@ export function getNextRenewalDate(
   // Jump close to today in one step, then walk forward, so very old dates don't loop for long.
   const daysPerCycle = cycle === "weekly" ? 7 : MONTHS_PER_CYCLE[cycle] * 31;
   let periods = Math.max(1, Math.floor(daysBetween(billingDate, today) / daysPerCycle));
-  let next = advance(billingDate, cycle, periods);
+  let next = advanceBillingDate(billingDate, cycle, periods);
   while (daysBetween(today, next) < 0) {
     periods += 1;
-    next = advance(billingDate, cycle, periods);
+    next = advanceBillingDate(billingDate, cycle, periods);
   }
   return next;
 }

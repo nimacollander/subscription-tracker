@@ -43,10 +43,10 @@ export function formatDueIn(days: number): string {
   return `Due in ${days} days`;
 }
 
-/** "Oct 25", for compact axis labels. */
-export function formatDayMonth(isoDate: string, locale?: string): string {
-  return new Intl.DateTimeFormat(locale, { month: "short", day: "numeric", timeZone: "UTC" }).format(
-    parseISODate(isoDate),
+/** "Oct", from a "2026-10" month key. */
+export function formatMonthShort(monthKey: string, locale?: string): string {
+  return new Intl.DateTimeFormat(locale, { month: "short", timeZone: "UTC" }).format(
+    parseISODate(`${monthKey}-01`),
   );
 }
 

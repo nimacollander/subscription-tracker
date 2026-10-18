@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatCurrency, formatDate, formatDayMonth, formatDueIn, formatMonthYear } from "./format";
+import { formatCurrency, formatDate, formatDueIn, formatMonthShort, formatMonthYear } from "./format";
 
 describe("formatCurrency", () => {
   it("formats with two decimals in the given currency", () => {
@@ -26,9 +26,9 @@ describe("formatDueIn", () => {
   });
 });
 
-describe("formatDayMonth / formatMonthYear", () => {
+describe("formatMonthShort / formatMonthYear", () => {
   it("formats without shifting the date by timezone", () => {
-    expect(formatDayMonth("2026-01-01", "en-US")).toBe("Jan 1");
+    expect(formatMonthShort("2026-01", "en-US")).toBe("Jan");
     expect(formatMonthYear("2026-10-31", "en-US")).toBe("October 2026");
   });
 });

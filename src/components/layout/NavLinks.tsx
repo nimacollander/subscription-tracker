@@ -2,33 +2,38 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { HomeIcon, SettingsIcon, StackIcon } from "@/components/ui/icons";
 
 const NAV_ITEMS = [
-  { label: "Dashboard", href: "/" },
-  { label: "Subscriptions", href: "/subscriptions" },
-  { label: "Settings", href: "/settings" },
+  { label: "Dashboard", href: "/", icon: HomeIcon },
+  { label: "Subscriptions", href: "/subscriptions", icon: StackIcon },
+  { label: "Settings", href: "/settings", icon: SettingsIcon },
 ];
 
-export function NavLinks() {
+/** Vertical in the sidebar, a horizontal tab row in the mobile header. */
+export function NavLinks({ orientation = "vertical" }: { orientation?: "vertical" | "horizontal" }) {
   const pathname = usePathname();
+  const vertical = orientation === "vertical";
 
   return (
-    <nav aria-label="Main" className="flex gap-6">
-      {NAV_ITEMS.map((item) => {
-        const active = pathname === item.href;
+    <nav aria-label="Main" className={vertical ? "flex flex-col gap-1" : "flex gap-1"}>
+      {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
+        const active = pathname === href;
         return (
           <Link
-            key={item.href}
-            href={item.href}
+            key={href}
+            href={href}
             aria-current={active ? "page" : undefined}
-            // The underline sits on the top bar's bottom edge, like a tab.
-            className={`relative whitespace-nowrap py-4 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:rounded-full after:transition-colors ${
+            className={`flex items-center gap-3 rounded-xl border text-[15px] whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+              vertical ? "px-3.5 py-2.5" : "px-3 py-2 text-sm"
+            } ${
               active
-                ? "text-foreground after:bg-accent"
-                : "text-muted after:bg-transparent hover:text-foreground"
+                ? "border-border bg-surface-2 font-medium text-foreground"
+                : "border-transparent text-muted hover:bg-surface-2/60 hover:text-foreground"
             }`}
           >
-            {item.label}
+            <Icon className={vertical ? "size-5" : "size-4"} />
+            {label}
           </Link>
         );
       })}

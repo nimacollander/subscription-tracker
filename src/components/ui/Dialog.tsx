@@ -42,9 +42,9 @@ export function Dialog({ title, description, onClose, children }: DialogProps) {
         event.preventDefault();
         onClose();
       }}
-      className="m-auto max-h-[90vh] w-[calc(100%-2rem)] max-w-lg rounded-3xl border border-border bg-surface p-6 text-foreground shadow-2xl shadow-black/20 backdrop:bg-[#06100f]/55 backdrop:backdrop-blur-[2px] sm:p-8"
+      className="m-auto max-h-[90vh] w-[calc(100%-2rem)] max-w-lg rounded-3xl border border-border bg-surface p-6 text-foreground shadow-2xl shadow-black/50 backdrop:bg-[#05070d]/70 backdrop:backdrop-blur-sm sm:p-7"
     >
-      <h2 id={titleId} className="font-display text-2xl leading-tight font-bold">
+      <h2 id={titleId} className="text-xl font-semibold tracking-tight">
         {title}
       </h2>
       {description && (

@@ -8,7 +8,7 @@ type NavItem = { label: string; href: string; disabled?: boolean };
 // Disabled items mark pages that later steps will add.
 const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", href: "/" },
-  { label: "Subscriptions", href: "/subscriptions", disabled: true },
+  { label: "Subscriptions", href: "/subscriptions" },
   { label: "Settings", href: "/settings", disabled: true },
 ];
 

@@ -8,6 +8,10 @@
   --border: #e4e4e7;
   --accent: #4f46e5;
   --accent-soft: #eef2ff;
+  --danger: #dc2626;
+  --danger-soft: #fef2f2;
+  --on-accent: #ffffff;
+  --on-danger: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,6 +23,10 @@
     --border: #27272a;
     --accent: #818cf8;
     --accent-soft: #1e1b4b;
+    --danger: #f87171;
+    --danger-soft: #2a1215;
+    --on-accent: #0c0c0e;
+    --on-danger: #0c0c0e;
   }
 }
 
@@ -30,6 +38,10 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-on-accent: var(--on-accent);
+  --color-on-danger: var(--on-danger);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

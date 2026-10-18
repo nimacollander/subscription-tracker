@@ -1,5 +1,4 @@
 import { StatCard } from "@/components/dashboard/StatCard";
-import { SubscriptionDebugList } from "@/components/dashboard/SubscriptionDebugList";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 
@@ -27,9 +26,6 @@ export default function DashboardPage() {
           <EmptyState message="A chart will appear here." />
         </Card>
       </div>
-
-      {/* TEMPORARY: remove once the dashboard reads real data. */}
-      <SubscriptionDebugList />
     </div>
   );
 }

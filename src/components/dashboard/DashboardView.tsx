@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useSubscriptions } from "@/hooks/useSubscriptions";
 import { useToday } from "@/hooks/useToday";
+import { getSpendByCategory, getTopSubscriptionsByCost } from "@/lib/analytics";
 import { getUpcomingRenewals } from "@/lib/renewals";
+import { CategoryDonut } from "./CategoryDonut";
 import { StatCardSkeleton } from "./StatCard";
 import { SummaryCards } from "./SummaryCards";
+import { TopSubscriptionsChart } from "./TopSubscriptionsChart";
 import { UpcomingRenewals } from "./UpcomingRenewals";
 
 const UPCOMING_WINDOW_DAYS = 30;
@@ -39,9 +41,10 @@ export function DashboardView() {
       <SummaryCards subscriptions={subscriptions} nextRenewal={allUpcoming[0]} />
       <div className="grid gap-4 lg:grid-cols-2">
         <UpcomingRenewals renewals={withinWindow} windowDays={UPCOMING_WINDOW_DAYS} />
-        <Card title="Spend by category">
-          <EmptyState message="A chart will appear here." />
-        </Card>
+        <div className="flex min-w-0 flex-col gap-4">
+          <CategoryDonut data={getSpendByCategory(subscriptions)} />
+          <TopSubscriptionsChart data={getTopSubscriptionsByCost(subscriptions)} />
+        </div>
       </div>
     </div>
   );

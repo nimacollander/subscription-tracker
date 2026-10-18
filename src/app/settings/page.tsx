@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { DataTransfer } from "@/components/settings/DataTransfer";
+import { ThemePicker } from "@/components/settings/ThemePicker";
 import { Card } from "@/components/ui/Card";
-import { ShieldIcon } from "@/components/ui/icons";
+import { SettingsIcon, ShieldIcon } from "@/components/ui/icons";
 import { PageHeader } from "@/components/ui/PageHeader";
 
 export const metadata: Metadata = {
@@ -11,7 +12,11 @@ export const metadata: Metadata = {
 export default function SettingsPage() {
   return (
     <div className="flex max-w-3xl flex-col gap-8">
-      <PageHeader title="Settings" description="Back up, restore, or move your data." />
+      <PageHeader title="Settings" description="Appearance and your data." />
+
+      <Card title="Appearance" icon={<SettingsIcon />}>
+        <ThemePicker />
+      </Card>
 
       <Card title="Data" icon={<ShieldIcon />}>
         <p className="mb-4 text-sm text-muted">

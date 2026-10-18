@@ -38,14 +38,6 @@ export const SettingsIcon = (p: IconProps) => (
   </Icon>
 );
 
-export const WalletIcon = (p: IconProps) => (
-  <Icon {...p}>
-    <path d="M19 7V5.5A1.5 1.5 0 0 0 17.5 4h-12A1.5 1.5 0 0 0 4 5.5V18a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1v-3" />
-    <path d="M20 8H6a2 2 0 0 1 0-4M16 14h.01" />
-    <path d="M20 10v4h-4a2 2 0 0 1 0-4z" />
-  </Icon>
-);
-
 export const ChartIcon = (p: IconProps) => (
   <Icon {...p}>
     <rect x="3.5" y="3.5" width="17" height="17" rx="3" />
@@ -70,32 +62,6 @@ export const PieIcon = (p: IconProps) => (
 export const ListIcon = (p: IconProps) => (
   <Icon {...p}>
     <path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01" />
-  </Icon>
-);
-
-export const AlertIcon = (p: IconProps) => (
-  <Icon {...p}>
-    <circle cx="12" cy="12" r="9" />
-    <path d="M12 7.5v5M12 16h.01" />
-  </Icon>
-);
-
-export const ArrowRightIcon = (p: IconProps) => (
-  <Icon {...p}>
-    <path d="M5 12h14M13 6l6 6-6 6" />
-  </Icon>
-);
-
-export const PlusIcon = (p: IconProps) => (
-  <Icon {...p}>
-    <path d="M12 5v14M5 12h14" />
-  </Icon>
-);
-
-export const SearchIcon = (p: IconProps) => (
-  <Icon {...p}>
-    <circle cx="11" cy="11" r="6.5" />
-    <path d="m20 20-4.2-4.2" />
   </Icon>
 );
 

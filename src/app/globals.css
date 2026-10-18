@@ -1,7 +1,69 @@
 @import "tailwindcss";
 
-/* Warm graphite with a single coral accent. Coral also marks anything due soon. */
+/* Light stone with a deep coral accent. Coral also marks anything due soon. */
 :root {
+  color-scheme: light;
+  --background: #f4f3f1;
+  --surface: #ffffff;
+  --surface-2: #f2efeb;
+  --foreground: #1c1917;
+  --muted: #6b645c;
+  --border: #e4dfd9;
+  --accent: #b83c19;
+  --accent-soft: #fde8e1;
+  --on-accent: #ffffff;
+  --success: #1d7a45;
+  --danger: #c2334d;
+  --danger-soft: #fbe6ea;
+  --backdrop: rgb(28 25 23 / 0.45);
+
+  /* Categorical chart slots in fixed order, validated for colour-blind separation on --surface.
+     Three sit below 3:1 on white, so every chart also prints its values as text. */
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-4: #eda100;
+  --chart-5: #e87ba4;
+  --chart-6: #008300;
+  --chart-other: #a8a29a;
+  /* De-emphasised bars next to the coral highlight. */
+  --chart-muted: #c4917f;
+}
+
+/*
+ * Warm graphite. Applies when the OS prefers dark and the user hasn't chosen light,
+ * or when the user chose dark. The choice lives in <html data-theme>, set before
+ * first paint by THEME_INIT_SCRIPT (src/lib/theme.ts). Chart slots are the same
+ * hues stepped for the dark surface, validated separately.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --background: #121110;
+    --surface: #1a1917;
+    --surface-2: #24221f;
+    --foreground: #f3efe8;
+    --muted: #a59e93;
+    --border: #2f2c28;
+    --accent: #ff7a5c;
+    --accent-soft: #3a211a;
+    --on-accent: #1a0f0b;
+    --success: #86d39a;
+    --danger: #f0647f;
+    --danger-soft: #3a1820;
+    --backdrop: rgb(11 9 8 / 0.75);
+    --chart-1: #3987e5;
+    --chart-2: #d95926;
+    --chart-3: #199e70;
+    --chart-4: #c98500;
+    --chart-5: #d55181;
+    --chart-6: #008300;
+    --chart-other: #57524b;
+    --chart-muted: #8a5d50;
+  }
+}
+
+:root[data-theme="dark"] {
   color-scheme: dark;
   --background: #121110;
   --surface: #1a1917;
@@ -15,8 +77,7 @@
   --success: #86d39a;
   --danger: #f0647f;
   --danger-soft: #3a1820;
-
-  /* Categorical chart slots in fixed order, validated for colour-blind separation on --surface. */
+  --backdrop: rgb(11 9 8 / 0.75);
   --chart-1: #3987e5;
   --chart-2: #d95926;
   --chart-3: #199e70;
@@ -24,6 +85,7 @@
   --chart-5: #d55181;
   --chart-6: #008300;
   --chart-other: #57524b;
+  --chart-muted: #8a5d50;
 }
 
 @theme inline {

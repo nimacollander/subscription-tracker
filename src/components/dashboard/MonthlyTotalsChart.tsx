@@ -7,10 +7,9 @@ import { ChartIcon } from "@/components/ui/icons";
 import type { Forecast } from "@/lib/forecast";
 import { formatCurrency, formatMonthShort, formatMonthYear } from "@/lib/format";
 
-// Emphasis, not categories: this month in full coral, the rest in a dimmer warm tone
-// (3.2:1 against the card, so the bars stay visible without competing).
+// Emphasis, not categories: this month in full coral, the rest in a dimmer warm tone.
 const CURRENT = "var(--accent)";
-const OTHERS = "#8a5d50";
+const OTHERS = "var(--chart-muted)";
 
 type Row = { key: string; label: string; total: number; fill: string; showLabel: boolean };
 
@@ -54,7 +53,7 @@ export function MonthlyTotalsChart({ forecast }: { forecast: Forecast }) {
                 if (!active || !row) return null;
                 const month = months.find((m) => m.key === row.key)!;
                 return (
-                  <div className="min-w-40 rounded-xl border border-border bg-surface-2 px-3.5 py-3 text-[13px] shadow-xl shadow-black/40">
+                  <div className="min-w-40 rounded-xl border border-border bg-surface-2 px-3.5 py-3 text-[13px] shadow-xl shadow-black/10">
                     <p className="font-semibold">{formatCurrency(row.total)}</p>
                     <p className="text-muted">{formatMonthYear(`${row.key}-01`)}</p>
                     <dl className="mt-2 space-y-0.5 border-t border-border pt-2">

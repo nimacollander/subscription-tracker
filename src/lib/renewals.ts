@@ -1,4 +1,4 @@
-import type { BillingCycle } from "@/types/subscription";
+import type { BillingCycle, Subscription } from "@/types/subscription";
 import { addDays, addMonths, daysBetween } from "./dates";
 
 const MONTHS_PER_CYCLE: Record<Exclude<BillingCycle, "weekly">, number> = {
@@ -43,4 +43,39 @@ export function daysUntilRenewal(
   today: string,
 ): number {
   return daysBetween(today, getNextRenewalDate(billingDate, cycle, today));
+}
+
+/** Renewals this many days away or fewer are highlighted. */
+export const DUE_SOON_DAYS = 7;
+
+export function isDueSoon(days: number): boolean {
+  return days <= DUE_SOON_DAYS;
+}
+
+export type UpcomingRenewal = {
+  subscription: Subscription;
+  date: string;
+  daysUntil: number;
+};
+
+/**
+ * Active subscriptions renewing within `withinDays` of `today` (inclusive),
+ * soonest first and then by name. Paused subscriptions never renew.
+ */
+export function getUpcomingRenewals(
+  subscriptions: Subscription[],
+  today: string,
+  withinDays = Infinity,
+): UpcomingRenewal[] {
+  return subscriptions
+    .filter((sub) => sub.status === "active")
+    .map((sub) => {
+      const date = getNextRenewalDate(sub.nextBillingDate, sub.billingCycle, today);
+      return { subscription: sub, date, daysUntil: daysBetween(today, date) };
+    })
+    .filter((renewal) => renewal.daysUntil <= withinDays)
+    .sort(
+      (a, b) =>
+        a.daysUntil - b.daysUntil || a.subscription.name.localeCompare(b.subscription.name),
+    );
 }

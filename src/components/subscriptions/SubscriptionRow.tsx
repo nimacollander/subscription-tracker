@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/Button";
-import { CYCLE_SUFFIXES, formatCurrency, formatDate, formatDaysUntil } from "@/lib/format";
+import { CYCLE_SUFFIXES, formatCurrency, formatDate, formatDueIn } from "@/lib/format";
 import { toMonthlyPrice } from "@/lib/pricing";
-import { daysUntilRenewal, getNextRenewalDate } from "@/lib/renewals";
+import { daysUntilRenewal, getNextRenewalDate, isDueSoon } from "@/lib/renewals";
 import type { Subscription } from "@/types/subscription";
 
 type SubscriptionRowProps = {
@@ -50,8 +50,8 @@ export function SubscriptionRow({ subscription: sub, today, onEdit, onToggleStat
         ) : (
           <>
             <p className="text-sm">{formatDate(nextDate)}</p>
-            <p className={`text-xs ${days <= 3 ? "font-medium text-accent" : "text-muted"}`}>
-              {formatDaysUntil(days)}
+            <p className={`text-xs ${isDueSoon(days) ? "font-medium text-warning" : "text-muted"}`}>
+              {formatDueIn(days)}
             </p>
           </>
         )}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatCurrency, formatDate, formatDaysUntil } from "./format";
+import { formatCurrency, formatDate, formatDueIn } from "./format";
 
 describe("formatCurrency", () => {
   it("formats with two decimals in the given currency", () => {
@@ -15,13 +15,13 @@ describe("formatDate", () => {
   });
 });
 
-describe("formatDaysUntil", () => {
+describe("formatDueIn", () => {
   it.each([
-    [0, "Today"],
-    [1, "Tomorrow"],
-    [2, "In 2 days"],
-    [30, "In 30 days"],
+    [0, "Due today"],
+    [1, "Due tomorrow"],
+    [2, "Due in 2 days"],
+    [30, "Due in 30 days"],
   ])("formats %d as %j", (days, expected) => {
-    expect(formatDaysUntil(days)).toBe(expected);
+    expect(formatDueIn(days)).toBe(expected);
   });
 });

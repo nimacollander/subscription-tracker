@@ -37,8 +37,8 @@ export function formatDate(isoDate: string, locale?: string): string {
   }).format(parseISODate(isoDate));
 }
 
-export function formatDaysUntil(days: number): string {
-  if (days === 0) return "Today";
-  if (days === 1) return "Tomorrow";
-  return `In ${days} days`;
+export function formatDueIn(days: number): string {
+  if (days === 0) return "Due today";
+  if (days === 1) return "Due tomorrow";
+  return `Due in ${days} days`;
 }

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { daysUntilRenewal, getNextRenewalDate } from "./renewals";
+import type { Subscription } from "@/types/subscription";
+import { daysUntilRenewal, getNextRenewalDate, getUpcomingRenewals, isDueSoon } from "./renewals";
 
 const TODAY = "2025-06-15";
 
@@ -72,5 +73,93 @@ describe("daysUntilRenewal", () => {
 
   it("counts across a year boundary", () => {
     expect(daysUntilRenewal("2025-01-05", "yearly", "2025-12-30")).toBe(6);
+  });
+});
+
+describe("getUpcomingRenewals", () => {
+  const make = (overrides: Partial<Subscription>): Subscription => ({
+    id: overrides.name ?? "x",
+    name: "x",
+    price: 10,
+    billingCycle: "monthly",
+    nextBillingDate: TODAY,
+    category: "Other",
+    notes: "",
+    status: "active",
+    ...overrides,
+  });
+
+  it("returns active renewals within the window, soonest first", () => {
+    const result = getUpcomingRenewals(
+      [
+        make({ name: "Later", nextBillingDate: "2025-07-10" }),
+        make({ name: "Soon", nextBillingDate: "2025-06-17" }),
+        make({ name: "Today", nextBillingDate: TODAY }),
+      ],
+      TODAY,
+      30,
+    );
+    expect(result.map((r) => [r.subscription.name, r.date, r.daysUntil])).toEqual([
+      ["Today", "2025-06-15", 0],
+      ["Soon", "2025-06-17", 2],
+      ["Later", "2025-07-10", 25],
+    ]);
+  });
+
+  it("includes the last day of the window and excludes the day after", () => {
+    const result = getUpcomingRenewals(
+      [
+        make({ name: "Day 30", nextBillingDate: "2025-07-15" }),
+        make({ name: "Day 31", nextBillingDate: "2025-07-16" }),
+      ],
+      TODAY,
+      30,
+    );
+    expect(result.map((r) => r.subscription.name)).toEqual(["Day 30"]);
+  });
+
+  it("excludes paused subscriptions", () => {
+    const result = getUpcomingRenewals(
+      [make({ name: "Paused", status: "paused" }), make({ name: "Active" })],
+      TODAY,
+      30,
+    );
+    expect(result.map((r) => r.subscription.name)).toEqual(["Active"]);
+  });
+
+  it("rolls past billing dates forward before filtering", () => {
+    // Weekly from 2025-06-10 → next is 2025-06-17
+    const [renewal] = getUpcomingRenewals(
+      [make({ billingCycle: "weekly", nextBillingDate: "2025-06-10" })],
+      TODAY,
+      30,
+    );
+    expect(renewal).toMatchObject({ date: "2025-06-17", daysUntil: 2 });
+  });
+
+  it("breaks ties by name", () => {
+    const result = getUpcomingRenewals(
+      [make({ name: "Zed", nextBillingDate: "2025-06-20" }), make({ name: "Alpha", nextBillingDate: "2025-06-20" })],
+      TODAY,
+      30,
+    );
+    expect(result.map((r) => r.subscription.name)).toEqual(["Alpha", "Zed"]);
+  });
+
+  it("has no window limit by default", () => {
+    const result = getUpcomingRenewals([make({ billingCycle: "yearly", nextBillingDate: "2026-05-01" })], TODAY);
+    expect(result).toHaveLength(1);
+  });
+
+  it("returns an empty list when nothing is active", () => {
+    expect(getUpcomingRenewals([], TODAY, 30)).toEqual([]);
+  });
+});
+
+describe("isDueSoon", () => {
+  it("is true up to and including 7 days", () => {
+    expect(isDueSoon(0)).toBe(true);
+    expect(isDueSoon(7)).toBe(true);
+    expect(isDueSoon(8)).toBe(false);
   });
 });

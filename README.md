@@ -1,4 +1,10 @@
-# Subscription Tracker
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/logo-dark.svg">
+    <img src="docs/logo-light.svg" alt="" width="34" height="34" align="top">
+  </picture>
+  Subscription Tracker
+</h1>
 
 Track recurring payments and see monthly and yearly spend at a glance.
 
@@ -38,7 +44,7 @@ A frontend-only app that answers two questions: *what do my subscriptions cost e
 - **Correct date math.** Billing dates are calendar dates, calculated in UTC so time zones and daylight saving can't shift them. Month-end billing doesn't drift: Jan 31 → Feb 28 → Mar 31. Past dates roll forward by whole billing cycles.
 - **localStorage without hydration errors.** Data is read through React's `useSyncExternalStore`, so the server render and the first client render always match. Stored data is versioned and validated on load, and changes sync across open tabs.
 - **No flash of the wrong theme.** A tiny inline script sets the saved theme before the first paint. With no saved choice, CSS follows `prefers-color-scheme` on its own.
-- **Pure logic, thin UI.** Pricing, renewals, projections, search, validation and import parsing are pure functions in `src/lib`, covered by 200 unit tests. Components only render.
+- **Pure logic, thin UI.** Pricing, renewals, projections, search, validation and import parsing are pure functions in `src/lib`, unit tested with Vitest, including the edge cases (month ends, leap years, paused subscriptions, malformed imports). Components only render.
 - **Accessible charts.** The chart palette is checked for colour-blind separation in both themes. Every value is also available as text (legends, labels and hidden tables), so nothing depends on colour or hover alone.
 - **Keyboard and screen reader support.**
   - The modals use the native `<dialog>` element, so focus is trapped, Escape closes them and focus returns to where you were.
@@ -83,7 +89,14 @@ src/
   types/        The Subscription type
 ```
 
+## Roadmap
+
+- **Choose your currency.** One app-wide setting instead of US dollars only.
+- **Renewal reminders.** Optional browser notifications a few days before a charge.
+- **Free trials.** Track when a trial ends and flag it before it turns into a charge.
+- **Calendar export.** Add upcoming renewals to Google or Apple Calendar with an `.ics` file.
+
 ## Notes
 
 - **All data stays in your browser's localStorage.** Clearing site data removes it, so use **Settings → Export JSON** to keep a backup.
-- **Amounts are shown in US dollars.**
+- **Amounts are shown in US dollars** (see the roadmap).

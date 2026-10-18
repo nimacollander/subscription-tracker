@@ -9,12 +9,12 @@ type CardProps = {
 
 export function Card({ title, icon, action, className = "", children }: CardProps) {
   return (
-    <section className={`rounded-3xl border border-border bg-surface p-5 sm:p-6 ${className}`}>
+    <section className={`rounded-2xl border border-border bg-surface p-5 sm:p-6 ${className}`}>
       {(title || action) && (
         <div className="mb-5 flex items-center justify-between gap-4">
           {title && (
-            <h2 className="flex items-center gap-2.5 text-[15px] font-medium">
-              {icon && <span className="text-muted">{icon}</span>}
+            <h2 className="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight">
+              {icon && <span className="text-accent">{icon}</span>}
               {title}
             </h2>
           )}

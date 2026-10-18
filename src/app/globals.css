@@ -1,23 +1,20 @@
 @import "tailwindcss";
 
-/* One dark theme: deep navy surfaces, blue as the accent, soft gradient glows. */
+/* Warm graphite with a single coral accent. Coral also marks anything due soon. */
 :root {
   color-scheme: dark;
-  --background: #0b0f19;
-  --surface: #121828;
-  --surface-2: #1a2133;
-  --foreground: #eef1f7;
-  --muted: #8c95ab;
-  --border: #232b3f;
-  --accent: #5b8cff;
-  --accent-strong: #3366ff;
-  --accent-soft: #1b2752;
-  --success: #4ade80;
-  --success-soft: #11291c;
-  --warning: #f5b544;
-  --warning-soft: #2e2410;
-  --danger: #f87171;
-  --danger-soft: #34171b;
+  --background: #121110;
+  --surface: #1a1917;
+  --surface-2: #24221f;
+  --foreground: #f3efe8;
+  --muted: #a59e93;
+  --border: #2f2c28;
+  --accent: #ff7a5c;
+  --accent-soft: #3a211a;
+  --on-accent: #1a0f0b;
+  --success: #86d39a;
+  --danger: #f0647f;
+  --danger-soft: #3a1820;
 
   /* Categorical chart slots in fixed order, validated for colour-blind separation on --surface. */
   --chart-1: #3987e5;
@@ -26,7 +23,7 @@
   --chart-4: #c98500;
   --chart-5: #d55181;
   --chart-6: #008300;
-  --chart-other: #4a5368;
+  --chart-other: #57524b;
 }
 
 @theme inline {
@@ -37,34 +34,18 @@
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-accent: var(--accent);
-  --color-accent-strong: var(--accent-strong);
   --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
   --color-success: var(--success);
-  --color-success-soft: var(--success-soft);
-  --color-warning: var(--warning);
-  --color-warning-soft: var(--warning-soft);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-instrument);
+  --font-display: var(--font-bricolage);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-feature-settings: "cv11", "ss01";
-}
-
-/* Card with a soft blue and warm glow in its top-right corner. */
-@utility glow-card {
-  background:
-    radial-gradient(90% 80% at 100% 0%, rgb(61 109 255 / 0.32), transparent 60%),
-    radial-gradient(60% 60% at 100% 100%, rgb(255 138 76 / 0.14), transparent 70%),
-    var(--surface);
-}
-
-/* Blue → violet → ember banner, for the one alert that needs attention. */
-@utility gradient-banner {
-  background: linear-gradient(90deg, #3b5bff 0%, #6a42e8 55%, #b4532a 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {

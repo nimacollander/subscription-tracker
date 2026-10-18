@@ -2,8 +2,8 @@
 // dates, so yearly and quarterly renewals show up in the months they land.
 import type { Subscription } from "@/types/subscription";
 import { OTHER_CATEGORY } from "./analytics";
-import { addMonths, daysBetween } from "./dates";
-import { advanceBillingDate } from "./renewals";
+import { getChargesBetween } from "./charges";
+import { addMonths } from "./dates";
 
 export type ForecastMonth = {
   /** "2026-10" */
@@ -34,15 +34,9 @@ export function getMonthlyForecast(
   const horizonEnd = addMonths(firstMonth, months); // exclusive
 
   // Every charge in the window, as [monthKey, category, amount].
-  const charges: [string, string, number][] = [];
-  for (const sub of subscriptions) {
-    if (sub.status !== "active") continue;
-    for (let periods = 0; ; periods++) {
-      const date = advanceBillingDate(sub.nextBillingDate, sub.billingCycle, periods);
-      if (daysBetween(date, horizonEnd) <= 0) break;
-      if (daysBetween(today, date) >= 0) charges.push([date.slice(0, 7), sub.category, sub.price]);
-    }
-  }
+  const charges: [string, string, number][] = getChargesBetween(subscriptions, today, horizonEnd).map(
+    ({ date, subscription }) => [date.slice(0, 7), subscription.category, subscription.price],
+  );
 
   const categoryTotals = new Map<string, number>();
   for (const [, category, amount] of charges) {

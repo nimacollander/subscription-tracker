@@ -23,7 +23,7 @@ export function CategoryDonut({ data, colorFor }: CategoryDonutProps) {
   const slices = data.map((d) => ({ ...d, fill: colorFor(d.category) }));
 
   return (
-    <Card title="Spend by category" icon={<PieIcon />}>
+    <Card title="By category" icon={<PieIcon />} className="h-full">
       {slices.length === 0 ? (
         <EmptyState message="No active subscriptions to chart." />
       ) : (
@@ -55,7 +55,7 @@ export function CategoryDonut({ data, colorFor }: CategoryDonutProps) {
             </PieChart>
             {/* Centre label; pointer-events off so it never blocks slice hover. */}
             <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-lg font-semibold">{formatCurrency(total)}</span>
+              <span className="font-display text-lg font-semibold">{formatCurrency(total)}</span>
               <span className="text-xs text-muted">per month</span>
             </div>
           </div>

@@ -7,10 +7,9 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const VARIANTS: Record<Variant, string> = {
-  // A white pill for the main action, as in the dashboard reference; blue is kept for state and data.
-  primary: "bg-foreground text-background hover:bg-foreground/90",
-  secondary: "border border-border bg-surface-2 text-foreground hover:border-muted/40 hover:bg-surface-2/70",
-  danger: "bg-danger text-background hover:bg-danger/90",
+  primary: "bg-accent text-on-accent hover:bg-accent/90",
+  secondary: "border border-border bg-surface-2 text-foreground hover:border-muted/40",
+  danger: "bg-danger text-on-accent hover:bg-danger/90",
   ghost: "text-muted hover:bg-surface-2 hover:text-foreground",
   "ghost-danger": "text-muted hover:bg-danger-soft hover:text-danger",
 };
@@ -24,7 +23,7 @@ export function Button({ variant = "secondary", size = "md", className = "", ...
   return (
     <button
       type="button"
-      className={`inline-flex items-center justify-center gap-1.5 rounded-full font-medium whitespace-nowrap transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50 ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
+      className={`inline-flex items-center justify-center gap-1.5 rounded-xl font-semibold whitespace-nowrap transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50 ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
       {...props}
     />
   );

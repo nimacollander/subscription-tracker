@@ -56,3 +56,10 @@ export function formatMonthYear(isoDate: string, locale?: string): string {
     parseISODate(isoDate),
   );
 }
+
+/** "Monday, October 19". */
+export function formatLongDate(isoDate: string, locale?: string): string {
+  return new Intl.DateTimeFormat(locale, { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" }).format(
+    parseISODate(isoDate),
+  );
+}

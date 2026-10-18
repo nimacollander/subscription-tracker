@@ -10,14 +10,16 @@ export function BrandMark({ className = "" }: { className?: string }) {
   );
 }
 
-export function Brand() {
+/** The mark alone in the rail; mark and name in the phone header. */
+export function Brand({ showName = false }: { showName?: boolean }) {
   return (
     <Link
       href="/"
-      className="flex items-center gap-2.5 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      aria-label={showName ? undefined : "Subscription Tracker home"}
+      className="flex items-center gap-2.5 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
     >
-      <BrandMark className="size-7" />
-      <span className="text-[17px] font-semibold tracking-tight">Subscription Tracker</span>
+      <BrandMark className="size-8" />
+      {showName && <span className="font-display text-lg font-semibold tracking-tight">Subscription Tracker</span>}
     </Link>
   );
 }

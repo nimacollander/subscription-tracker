@@ -18,10 +18,11 @@ type SubscriptionTableProps = {
 export function SubscriptionTable({ subscriptions, today, totalCount }: SubscriptionTableProps) {
   return (
     <Card
+      className="h-full"
       title="Subscriptions"
       icon={<StackIcon />}
       action={
-        <Link href="/subscriptions" className="text-sm font-medium hover:text-accent focus-visible:outline-2 focus-visible:outline-accent">
+        <Link href="/subscriptions" className="text-sm font-medium text-muted hover:text-accent focus-visible:outline-2 focus-visible:outline-accent">
           View all {totalCount}
         </Link>
       }

@@ -57,7 +57,7 @@ export function SubscriptionRow({ subscription: sub, today, onEdit, onToggleStat
         ) : (
           <>
             <p className="text-sm">{formatDate(nextDate)}</p>
-            <p className={`text-xs ${isDueSoon(days) ? "font-medium text-warning" : "text-muted"}`}>{formatDueIn(days)}</p>
+            <p className={`text-xs ${isDueSoon(days) ? "font-medium text-accent" : "text-muted"}`}>{formatDueIn(days)}</p>
           </>
         )}
       </div>

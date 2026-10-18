@@ -31,7 +31,7 @@ function NameTick({ x, y, payload }: TickProps) {
 
 export function TopSubscriptionsChart({ data }: { data: SubscriptionCost[] }) {
   return (
-    <Card title="Most expensive" icon={<ChartIcon />} action={<span className="text-[13px] text-muted">Per month</span>}>
+    <Card title="Most expensive" icon={<ChartIcon />} className="h-full" action={<span className="text-[13px] text-muted">Per month</span>}>
       {data.length === 0 ? (
         <EmptyState message="No active subscriptions to chart." />
       ) : (

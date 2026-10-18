@@ -35,6 +35,11 @@ function toggleStatus(id: string) {
   updateSubscriptions((list) => toggleSubscriptionStatus(list, id));
 }
 
+/** Swaps the whole list, e.g. after importing a file. */
+function replaceSubscriptions(list: Subscription[]) {
+  updateSubscriptions(() => list);
+}
+
 export function useSubscriptions() {
   const stored = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
@@ -46,5 +51,6 @@ export function useSubscriptions() {
     updateSubscription,
     deleteSubscription,
     toggleStatus,
+    replaceSubscriptions,
   };
 }

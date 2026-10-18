@@ -1,5 +1,6 @@
 import { Brand } from "./Brand";
 import { NavLinks } from "./NavLinks";
+import { ThemeToggle } from "./ThemeToggle";
 
 // Desktop-only; on small screens the Header carries navigation.
 export function Sidebar() {
@@ -9,6 +10,9 @@ export function Sidebar() {
         <Brand />
       </div>
       <NavLinks />
+      <div className="mt-auto px-1">
+        <ThemeToggle />
+      </div>
     </aside>
   );
 }

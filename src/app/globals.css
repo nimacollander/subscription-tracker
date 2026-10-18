@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   --background: #f7f7f8;
   --surface: #ffffff;
   --foreground: #18181b;
@@ -24,8 +25,14 @@
   --chart-other: #a8a7a1;
 }
 
+/*
+ * Dark tokens apply when the OS prefers dark and the user hasn't chosen light,
+ * or when the user chose dark. The choice lives in <html data-theme>, set
+ * before first paint by THEME_INIT_SCRIPT (src/lib/theme.ts).
+ */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --background: #0c0c0e;
     --surface: #161619;
     --foreground: #f4f4f5;
@@ -47,6 +54,30 @@
     --chart-6: #008300;
     --chart-other: #5f5e5a;
   }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #0c0c0e;
+  --surface: #161619;
+  --foreground: #f4f4f5;
+  --muted: #a1a1aa;
+  --border: #27272a;
+  --accent: #818cf8;
+  --accent-soft: #1e1b4b;
+  --danger: #f87171;
+  --danger-soft: #2a1215;
+  --on-accent: #0c0c0e;
+  --on-danger: #0c0c0e;
+  --warning: #fbbf24;
+  --warning-soft: #2a1f0a;
+  --chart-1: #3987e5;
+  --chart-2: #d95926;
+  --chart-3: #199e70;
+  --chart-4: #c98500;
+  --chart-5: #d55181;
+  --chart-6: #008300;
+  --chart-other: #5f5e5a;
 }
 
 @theme inline {

@@ -1,6 +1,8 @@
-export type BillingCycle = "weekly" | "monthly" | "quarterly" | "yearly";
+export const BILLING_CYCLES = ["weekly", "monthly", "quarterly", "yearly"] as const;
+export type BillingCycle = (typeof BILLING_CYCLES)[number];
 
-export type SubscriptionStatus = "active" | "paused";
+export const SUBSCRIPTION_STATUSES = ["active", "paused"] as const;
+export type SubscriptionStatus = (typeof SUBSCRIPTION_STATUSES)[number];
 
 export type Subscription = {
   id: string;
@@ -14,3 +16,6 @@ export type Subscription = {
   notes: string;
   status: SubscriptionStatus;
 };
+
+/** Fields the user provides; the id is generated. */
+export type SubscriptionInput = Omit<Subscription, "id">;

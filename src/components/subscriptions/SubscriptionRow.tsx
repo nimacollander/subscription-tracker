@@ -20,10 +20,10 @@ export function SubscriptionRow({ subscription: sub, today, onEdit, onToggleStat
   return (
     // Layout follows the list's width (container query), not the viewport, because
     // the sidebar takes space from md up. Narrow: name, then price | date, then actions.
-    <li className="grid grid-cols-2 gap-3 rounded-xl border border-border bg-surface p-4 @2xl:grid-cols-[minmax(0,1fr)_8rem_9rem_auto] @2xl:items-center @2xl:gap-6">
+    <li className="grid grid-cols-2 gap-3 rounded-2xl border border-border bg-surface p-4 transition-colors hover:border-foreground/25 sm:px-5 @2xl:grid-cols-[minmax(0,1fr)_8rem_9rem_auto] @2xl:items-center @2xl:gap-6">
       <div className={`col-span-2 min-w-0 @2xl:col-span-1 ${isPaused ? "opacity-60" : ""}`}>
         <div className="flex items-center gap-2">
-          <h3 className="truncate font-medium">{sub.name}</h3>
+          <h3 className="truncate font-semibold">{sub.name}</h3>
           {isPaused && (
             <span className="rounded-full bg-border px-2 py-0.5 text-xs font-medium text-muted">Paused</span>
           )}
@@ -35,9 +35,9 @@ export function SubscriptionRow({ subscription: sub, today, onEdit, onToggleStat
       </div>
 
       <div className={isPaused ? "opacity-60" : ""}>
-        <p className="font-medium tabular-nums">
+        <p className="font-display text-lg leading-tight font-bold tabular-nums">
           {formatCurrency(sub.price)}
-          <span className="text-sm font-normal text-muted">{CYCLE_SUFFIXES[sub.billingCycle]}</span>
+          <span className="font-sans text-sm font-normal tracking-normal text-muted">{CYCLE_SUFFIXES[sub.billingCycle]}</span>
         </p>
         {sub.billingCycle !== "monthly" && (
           <p className="text-xs text-muted tabular-nums">

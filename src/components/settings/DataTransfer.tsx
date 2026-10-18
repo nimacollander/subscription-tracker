@@ -64,7 +64,7 @@ export function DataTransfer() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col">
       <div className="flex flex-wrap gap-2">
         <Button onClick={handleExport} disabled={!isLoaded}>
           Export JSON
@@ -86,13 +86,13 @@ export function DataTransfer() {
       {/* Errors interrupt (alert); confirmations are announced politely (status). */}
       <div role="alert">
         {message?.type === "error" && (
-          <p className="rounded-lg border border-danger/40 bg-danger-soft px-3 py-2 text-sm text-danger">
+          <p className="mt-4 rounded-xl border border-danger/40 bg-danger-soft px-3 py-2 text-sm text-danger">
             <span className="font-medium">Couldn&apos;t import this file.</span> {message.text}
           </p>
         )}
       </div>
       <div role="status">
-        {message?.type === "success" && <p className="text-sm text-muted">{message.text}</p>}
+        {message?.type === "success" && <p className="mt-4 text-sm text-muted">{message.text}</p>}
       </div>
 
       {pending && (

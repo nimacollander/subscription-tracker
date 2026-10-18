@@ -19,7 +19,7 @@ export function ThemePicker() {
         {OPTIONS.map((option) => (
           <label
             key={option.value}
-            className="flex cursor-pointer items-start gap-3 rounded-lg border border-border p-3 transition-colors hover:bg-border/30 has-[:checked]:border-accent has-[:checked]:bg-accent-soft has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent/40"
+            className="flex cursor-pointer items-start gap-3 rounded-xl border border-border p-4 transition-colors hover:bg-border/30 has-[:checked]:border-accent has-[:checked]:bg-accent-soft has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent/40"
           >
             <input
               type="radio"

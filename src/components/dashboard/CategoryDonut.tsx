@@ -54,7 +54,7 @@ export function CategoryDonut({ data }: { data: CategorySpend[] }) {
             </PieChart>
             {/* Centre label; pointer-events off so it never blocks slice hover. */}
             <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-lg font-semibold">{formatCurrency(total)}</span>
+              <span className="font-display text-lg font-bold">{formatCurrency(total)}</span>
               <span className="text-xs text-muted">per month</span>
             </div>
           </div>

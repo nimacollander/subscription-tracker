@@ -42,17 +42,17 @@ export function Dialog({ title, description, onClose, children }: DialogProps) {
         event.preventDefault();
         onClose();
       }}
-      className="m-auto max-h-[90vh] w-[calc(100%-2rem)] max-w-lg rounded-xl border border-border bg-surface p-6 text-foreground shadow-xl backdrop:bg-black/50"
+      className="m-auto max-h-[90vh] w-[calc(100%-2rem)] max-w-lg rounded-3xl border border-border bg-surface p-6 text-foreground shadow-2xl shadow-black/20 backdrop:bg-[#06100f]/55 backdrop:backdrop-blur-[2px] sm:p-8"
     >
-      <h2 id={titleId} className="text-lg font-semibold">
+      <h2 id={titleId} className="font-display text-2xl leading-tight font-bold">
         {title}
       </h2>
       {description && (
-        <p id={descriptionId} className="mt-1 text-sm text-muted">
+        <p id={descriptionId} className="mt-2 text-sm text-muted">
           {description}
         </p>
       )}
-      <div className="mt-5">{children}</div>
+      <div className="mt-6">{children}</div>
     </dialog>
   );
 }

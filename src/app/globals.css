@@ -2,19 +2,20 @@
 
 :root {
   color-scheme: light;
-  --background: #f7f7f8;
-  --surface: #ffffff;
-  --foreground: #18181b;
-  --muted: #71717a;
-  --border: #e4e4e7;
-  --accent: #4f46e5;
-  --accent-soft: #eef2ff;
-  --danger: #dc2626;
-  --danger-soft: #fef2f2;
-  --on-accent: #ffffff;
-  --on-danger: #ffffff;
-  --warning: #b45309;
-  --warning-soft: #fffbeb;
+  /* "Intaglio": banknote paper, green-black ink, teal plate ink, brass for due-soon. */
+  --background: #e9edea;
+  --surface: #f7f9f7;
+  --foreground: #0d1b1a;
+  --muted: #56645f;
+  --border: #cbd4d0;
+  --accent: #0b5e5a;
+  --accent-soft: #dcebe8;
+  --danger: #b4321f;
+  --danger-soft: #f7e1dc;
+  --on-accent: #f7f9f7;
+  --on-danger: #f7f9f7;
+  --warning: #8a5a0b;
+  --warning-soft: #f2e7cf;
   /* Categorical chart slots, in fixed order (validated for colour-blind separation). */
   --chart-1: #2a78d6;
   --chart-2: #eb6834;
@@ -22,7 +23,7 @@
   --chart-4: #eda100;
   --chart-5: #e87ba4;
   --chart-6: #008300;
-  --chart-other: #a8a7a1;
+  --chart-other: #a3aca8;
 }
 
 /*
@@ -33,51 +34,51 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --background: #0c0c0e;
-    --surface: #161619;
-    --foreground: #f4f4f5;
-    --muted: #a1a1aa;
-    --border: #27272a;
-    --accent: #818cf8;
-    --accent-soft: #1e1b4b;
-    --danger: #f87171;
-    --danger-soft: #2a1215;
-    --on-accent: #0c0c0e;
-    --on-danger: #0c0c0e;
-    --warning: #fbbf24;
-    --warning-soft: #2a1f0a;
+    --background: #0a1211;
+    --surface: #111c1b;
+    --foreground: #e6eeeb;
+    --muted: #93a49f;
+    --border: #24332f;
+    --accent: #5ed3c3;
+    --accent-soft: #12302d;
+    --danger: #f07a66;
+    --danger-soft: #2e1714;
+    --on-accent: #06211f;
+    --on-danger: #1f0906;
+    --warning: #e2b65a;
+    --warning-soft: #2a2311;
     --chart-1: #3987e5;
     --chart-2: #d95926;
     --chart-3: #199e70;
     --chart-4: #c98500;
     --chart-5: #d55181;
     --chart-6: #008300;
-    --chart-other: #5f5e5a;
+    --chart-other: #4c5a56;
   }
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --background: #0c0c0e;
-  --surface: #161619;
-  --foreground: #f4f4f5;
-  --muted: #a1a1aa;
-  --border: #27272a;
-  --accent: #818cf8;
-  --accent-soft: #1e1b4b;
-  --danger: #f87171;
-  --danger-soft: #2a1215;
-  --on-accent: #0c0c0e;
-  --on-danger: #0c0c0e;
-  --warning: #fbbf24;
-  --warning-soft: #2a1f0a;
+  --background: #0a1211;
+  --surface: #111c1b;
+  --foreground: #e6eeeb;
+  --muted: #93a49f;
+  --border: #24332f;
+  --accent: #5ed3c3;
+  --accent-soft: #12302d;
+  --danger: #f07a66;
+  --danger-soft: #2e1714;
+  --on-accent: #06211f;
+  --on-danger: #1f0906;
+  --warning: #e2b65a;
+  --warning-soft: #2a2311;
   --chart-1: #3987e5;
   --chart-2: #d95926;
   --chart-3: #199e70;
   --chart-4: #c98500;
   --chart-5: #d55181;
   --chart-6: #008300;
-  --chart-other: #5f5e5a;
+  --chart-other: #4c5a56;
 }
 
 @theme inline {
@@ -94,11 +95,37 @@
   --color-on-danger: var(--on-danger);
   --color-warning: var(--warning);
   --color-warning-soft: var(--warning-soft);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-martian);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Archivo's width axis at its widest: the display voice for headings, figures, and the wordmark. */
+@utility font-display {
+  font-family: var(--font-archivo);
+  font-stretch: 125%;
+  letter-spacing: -0.03em;
+}
+
+/* Small uppercase labels in a narrowed Martian Mono, used for eyebrows and axis ticks. */
+@utility font-label {
+  font-family: var(--font-martian);
+  font-stretch: 87.5%;
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

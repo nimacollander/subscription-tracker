@@ -14,7 +14,7 @@ export function ThemeToggle() {
       disabled={resolved === null}
       aria-label={resolved ? `Switch to ${next} theme` : "Toggle theme"}
       title={resolved ? `Switch to ${next} theme` : undefined}
-      className="flex size-9 shrink-0 items-center justify-center rounded-lg text-muted transition-colors hover:bg-border/50 hover:text-foreground focus-visible:outline-2 focus-visible:outline-accent"
+      className="flex size-9 shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:bg-border/50 hover:text-foreground focus-visible:outline-2 focus-visible:outline-accent"
     >
       {resolved === "dark" && <SunIcon />}
       {resolved === "light" && <MoonIcon />}

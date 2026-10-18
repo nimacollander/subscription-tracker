@@ -7,8 +7,8 @@ import { useToday } from "@/hooks/useToday";
 import { getSpendByCategory, getTopSubscriptionsByCost } from "@/lib/analytics";
 import { getUpcomingRenewals } from "@/lib/renewals";
 import { CategoryDonut } from "./CategoryDonut";
-import { StatCardSkeleton } from "./StatCard";
-import { SummaryCards } from "./SummaryCards";
+import { HeroSummary } from "./HeroSummary";
+import { RenewalRuler } from "./RenewalRuler";
 import { TopSubscriptionsChart } from "./TopSubscriptionsChart";
 import { UpcomingRenewals } from "./UpcomingRenewals";
 
@@ -25,7 +25,7 @@ export function DashboardView() {
       <EmptyState title="No subscriptions yet" message="Add your subscriptions to see what you spend.">
         <Link
           href="/subscriptions"
-          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:opacity-90"
+          className="inline-flex h-10 items-center rounded-full bg-foreground px-4.5 text-sm font-medium text-surface hover:bg-foreground/85"
         >
           Go to subscriptions
         </Link>
@@ -37,8 +37,9 @@ export function DashboardView() {
   const withinWindow = allUpcoming.filter((r) => r.daysUntil <= UPCOMING_WINDOW_DAYS);
 
   return (
-    <div className="flex flex-col gap-6">
-      <SummaryCards subscriptions={subscriptions} nextRenewal={allUpcoming[0]} />
+    <div className="flex flex-col gap-10 sm:gap-14">
+      <HeroSummary subscriptions={subscriptions} nextRenewal={allUpcoming[0]} next30={withinWindow} today={today} />
+      <RenewalRuler renewals={withinWindow} today={today} horizon={UPCOMING_WINDOW_DAYS} />
       <div className="grid gap-4 lg:grid-cols-2">
         <UpcomingRenewals renewals={withinWindow} windowDays={UPCOMING_WINDOW_DAYS} />
         <div className="flex min-w-0 flex-col gap-4">
@@ -52,13 +53,13 @@ export function DashboardView() {
 
 function DashboardSkeleton() {
   return (
-    <div className="flex flex-col gap-6" aria-busy>
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {Array.from({ length: 4 }, (_, i) => (
-          <StatCardSkeleton key={i} />
-        ))}
+    <div className="flex flex-col gap-10 sm:gap-14" aria-busy>
+      <div className="flex flex-col gap-5">
+        <div className="h-4 w-56 animate-pulse rounded bg-border/60" />
+        <div className="h-28 w-full max-w-xl animate-pulse rounded-2xl bg-border/60 sm:h-36" />
+        <div className="mt-6 h-20 animate-pulse rounded-2xl bg-border/40" />
       </div>
-      <div className="h-80 animate-pulse rounded-xl border border-border bg-surface" />
+      <div className="h-56 animate-pulse rounded-2xl border border-border bg-surface" />
     </div>
   );
 }

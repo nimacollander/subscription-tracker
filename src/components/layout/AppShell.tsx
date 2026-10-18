@@ -1,16 +1,10 @@
-import { Header } from "./Header";
-import { Sidebar } from "./Sidebar";
+import { TopBar } from "./TopBar";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
-      <div className="flex min-w-0 flex-1 flex-col">
-        <Header />
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-8 sm:py-8">
-          {children}
-        </main>
-      </div>
+    <div className="flex min-h-screen flex-col">
+      <TopBar />
+      <main className="mx-auto w-full max-w-6xl flex-1 px-5 pt-10 pb-20 sm:px-8 sm:pt-14">{children}</main>
     </div>
   );
 }

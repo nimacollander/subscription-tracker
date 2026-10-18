@@ -59,7 +59,7 @@ export function TopSubscriptionsChart({ data }: { data: SubscriptionCost[] }) {
           <Bar
             dataKey="monthly"
             name="Monthly cost"
-            fill="var(--chart-1)"
+            fill="var(--accent)"
             barSize={BAR_SIZE}
             // Rounded at the data end, square at the baseline.
             radius={[0, 4, 4, 0]}

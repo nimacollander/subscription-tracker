@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DataTransfer } from "@/components/settings/DataTransfer";
 import { ThemePicker } from "@/components/settings/ThemePicker";
 import { Card } from "@/components/ui/Card";
+import { PageHeader } from "@/components/ui/PageHeader";
 
 export const metadata: Metadata = {
   title: "Settings · Subscription Tracker",
@@ -9,11 +10,8 @@ export const metadata: Metadata = {
 
 export default function SettingsPage() {
   return (
-    <div className="flex max-w-3xl flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
-        <p className="mt-1 text-sm text-muted">Appearance and your data.</p>
-      </div>
+    <div className="flex max-w-3xl flex-col gap-8">
+      <PageHeader title="Settings" description="Appearance and your data." />
 
       <Card title="Appearance">
         <ThemePicker />

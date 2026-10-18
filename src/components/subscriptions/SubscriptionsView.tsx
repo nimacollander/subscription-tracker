@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { DEFAULT_CATEGORIES } from "@/data/categories";
 import { useSubscriptions } from "@/hooks/useSubscriptions";
 import { useToday } from "@/hooks/useToday";
@@ -62,19 +63,16 @@ export function SubscriptionsView() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Subscriptions</h1>
-          {/* Paused subscriptions are excluded, so pausing one updates this immediately. */}
-          <p className="mt-1 text-sm text-muted">
-            {isReady ? `${totals.activeCount} active · ${formatCurrency(totals.monthly)}/mo` : " "}
-          </p>
-        </div>
+    <div className="flex flex-col gap-8">
+      {/* Paused subscriptions are excluded from the totals, so pausing one updates them immediately. */}
+      <PageHeader
+        title="Subscriptions"
+        description={isReady ? `${totals.activeCount} active · ${formatCurrency(totals.monthly)}/mo` : "\u00a0"}
+      >
         <Button variant="primary" onClick={() => setDialog({ type: "add" })} disabled={!isReady}>
           + Add subscription
         </Button>
-      </div>
+      </PageHeader>
 
       {!isReady ? (
         <ListSkeleton />
@@ -93,7 +91,7 @@ export function SubscriptionsView() {
             onChange={setQuery}
           />
 
-          <div className="-mt-2 flex min-h-8 items-center justify-between gap-4">
+          <div className="-mt-4 flex min-h-8 items-center justify-between gap-4">
             <p className="text-sm text-muted" aria-live="polite">
               {filtered
                 ? `Showing ${visible.length} of ${subscriptions.length}`

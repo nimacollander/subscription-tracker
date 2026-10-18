@@ -7,9 +7,10 @@ import { ChartIcon } from "@/components/ui/icons";
 import type { Forecast } from "@/lib/forecast";
 import { formatCurrency, formatMonthShort, formatMonthYear } from "@/lib/format";
 
-// Emphasis, not categories: this month in coral, the rest in a quiet neutral.
+// Emphasis, not categories: this month in full coral, the rest in a dimmer warm tone
+// (3.2:1 against the card, so the bars stay visible without competing).
 const CURRENT = "var(--accent)";
-const OTHERS = "#6e675e";
+const OTHERS = "#8a5d50";
 
 type Row = { key: string; label: string; total: number; fill: string; showLabel: boolean };
 
@@ -40,7 +41,8 @@ export function MonthlyTotalsChart({ forecast }: { forecast: Forecast }) {
           <BarChart
             responsive
             data={rows}
-            style={{ width: "100%", height: 300 }}
+            // Shorter on phones, tall enough on desktop to match the category card beside it.
+            style={{ width: "100%", height: "clamp(220px, 45vw, 350px)" }}
             margin={{ top: 22, right: 0, bottom: 0, left: 0 }}
             accessibilityLayer
           >

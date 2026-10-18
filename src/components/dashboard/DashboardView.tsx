@@ -39,19 +39,20 @@ export function DashboardView() {
     );
   }
 
-  const upcoming = getUpcomingRenewals(subscriptions, today, UPCOMING_WINDOW_DAYS);
+  const allUpcoming = getUpcomingRenewals(subscriptions, today);
+  const upcoming = allUpcoming.filter((r) => r.daysUntil <= UPCOMING_WINDOW_DAYS);
   const preview = applyQuery(subscriptions, DEFAULT_QUERY, today).slice(0, TABLE_PREVIEW_ROWS);
   const spendByCategory = getSpendByCategory(subscriptions);
 
   return (
     <div className="flex flex-col gap-8">
-      <OverviewHeader subscriptions={subscriptions} upcoming={upcoming} today={today} />
+      <OverviewHeader subscriptions={subscriptions} upcoming={upcoming} next={allUpcoming[0]} today={today} />
 
       {/* Pairs of cards; on phones "Coming up" leads, ahead of the calendar. */}
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="min-w-0 xl:col-start-2 xl:row-start-1">
           {/* Not limited to the 30-day window, so the list stays full in quiet months. */}
-          <ComingUp renewals={getUpcomingRenewals(subscriptions, today)} />
+          <ComingUp renewals={allUpcoming} />
         </div>
         <div className="min-w-0 xl:col-start-1 xl:row-start-1">
           <RenewalCalendar subscriptions={subscriptions} today={today} />

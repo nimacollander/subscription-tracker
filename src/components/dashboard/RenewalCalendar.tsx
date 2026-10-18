@@ -27,15 +27,19 @@ export function RenewalCalendar({ subscriptions, today }: RenewalCalendarProps) 
 
   const grid = buildMonthGrid(month);
   const until = addDays(grid[grid.length - 1].date, 1);
-  // Charges are projected forward from today; earlier days in the month stay empty.
-  const byDate = groupChargesByDate(getChargesBetween(subscriptions, today, until));
-  const monthTotal = [...byDate]
-    .filter(([date]) => date.startsWith(month))
-    .reduce((sum, [, charges]) => sum + charges.reduce((s, c) => s + c.subscription.price, 0), 0);
+  // Includes charges already made earlier this month, so the month reads complete.
+  const byDate = groupChargesByDate(getChargesBetween(subscriptions, `${month}-01`, until, today));
+  const monthDays = [...byDate].filter(([date]) => date.startsWith(month));
+  const sumOf = (days: typeof monthDays) =>
+    days.reduce((sum, [, charges]) => sum + charges.reduce((s, c) => s + c.subscription.price, 0), 0);
+  const monthTotal = sumOf(monthDays);
+  const remaining = sumOf(monthDays.filter(([date]) => daysBetween(today, date) >= 0));
 
-  // Default selection: the first charge day shown this month.
-  const firstChargeDay = [...byDate.keys()].find((date) => date.startsWith(month)) ?? null;
-  const selectedDate = selected && selected.startsWith(month) ? selected : firstChargeDay;
+  // Default selection: the next charge day this month, else the first one shown.
+  const nextChargeDay = monthDays.find(([date]) => daysBetween(today, date) >= 0)?.[0];
+  const defaultDay = nextChargeDay ?? monthDays[0]?.[0] ?? null;
+  const selectedDate = selected && selected.startsWith(month) ? selected : defaultDay;
+  const selectedIsPast = selectedDate !== null && daysBetween(today, selectedDate) < 0;
   const selectedCharges = selectedDate ? (byDate.get(selectedDate) ?? []) : [];
 
   const goTo = (offset: number) => {
@@ -60,8 +64,11 @@ export function RenewalCalendar({ subscriptions, today }: RenewalCalendarProps) 
         <p className="font-display text-2xl font-semibold tracking-tight" aria-live="polite">
           {formatMonthYear(`${month}-01`)}
         </p>
-        <p className="text-sm text-muted">
-          <span className="font-semibold text-foreground">{formatCurrency(monthTotal)}</span> due
+        <p className="text-right text-sm text-muted">
+          <span className="font-semibold text-foreground">{formatCurrency(monthTotal)}</span> this month
+          {remaining < monthTotal && (
+            <span className="block text-xs">{formatCurrency(remaining)} still to come</span>
+          )}
         </p>
       </div>
 
@@ -80,7 +87,7 @@ export function RenewalCalendar({ subscriptions, today }: RenewalCalendarProps) 
           const total = charges.reduce((sum, c) => sum + c.subscription.price, 0);
           const isToday = date === today;
           const isPast = daysBetween(today, date) < 0;
-          const soon = charges.length > 0 && isDueSoon(daysBetween(today, date));
+          const soon = charges.length > 0 && !isPast && isDueSoon(daysBetween(today, date));
           const dayNumber = parseISODate(date).getUTCDate();
           const cell = `relative flex aspect-square min-h-11 flex-col rounded-lg p-1 text-left sm:aspect-auto sm:h-[76px] sm:p-2 ${
             isToday ? "ring-1 ring-accent" : ""
@@ -97,7 +104,7 @@ export function RenewalCalendar({ subscriptions, today }: RenewalCalendarProps) 
           }
 
           const isSelected = date === selectedDate;
-          const label = `${formatLongDate(date)}: ${charges
+          const label = `${formatLongDate(date)}${isPast ? ", charged" : ""}: ${charges
             .map((c) => `${c.subscription.name} ${formatCurrency(c.subscription.price)}`)
             .join(", ")}`;
 
@@ -108,14 +115,19 @@ export function RenewalCalendar({ subscriptions, today }: RenewalCalendarProps) 
                 aria-label={label}
                 aria-pressed={isSelected}
                 onClick={() => setSelected(date)}
+                // Days already charged stay visible but recede behind what's still to come.
                 className={`${cell} w-full border transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent ${
-                  isSelected ? "border-accent/60 bg-accent-soft" : "border-border bg-surface-2 hover:border-muted/50"
-                }`}
+                  isSelected
+                    ? "border-accent/60 bg-accent-soft"
+                    : isPast
+                      ? "border-dashed border-border bg-transparent text-muted hover:border-muted/50"
+                      : "border-border bg-surface-2 hover:border-muted/50"
+                } ${isPast && !isSelected ? "[&_.avatar]:opacity-50" : ""}`}
               >
                 <span className="text-xs font-semibold sm:text-sm">{dayNumber}</span>
                 <span className="mt-auto hidden items-center -space-x-1 sm:flex">
                   {charges.slice(0, MAX_AVATARS).map((c) => (
-                    <span key={c.subscription.id} className="rounded-md ring-2 ring-surface-2">
+                    <span key={c.subscription.id} className="avatar rounded-md ring-2 ring-surface">
                       <Avatar name={c.subscription.name} size="xs" />
                     </span>
                   ))}
@@ -124,9 +136,9 @@ export function RenewalCalendar({ subscriptions, today }: RenewalCalendarProps) 
                   )}
                 </span>
                 {/* Phones get a dot (amounts don't fit); the day panel below has the details. */}
-                <span aria-hidden className={`mt-auto size-1.5 rounded-full sm:hidden ${soon ? "bg-accent" : "bg-foreground/70"}`} />
+                <span aria-hidden className={`mt-auto size-1.5 rounded-full sm:hidden ${soon ? "bg-accent" : isPast ? "bg-muted/50" : "bg-foreground/70"}`} />
                 <span
-                  className={`mt-1 hidden truncate text-xs font-semibold tabular-nums sm:block ${soon ? "text-accent" : "text-foreground"}`}
+                  className={`mt-1 hidden truncate text-xs font-semibold tabular-nums sm:block ${soon ? "text-accent" : isPast ? "text-muted" : "text-foreground"}`}
                 >
                   {formatCurrency(total).replace(/\.00$/, "")}
                 </span>
@@ -141,6 +153,7 @@ export function RenewalCalendar({ subscriptions, today }: RenewalCalendarProps) 
           <>
             <p className="text-sm font-medium">
               {formatLongDate(selectedDate)}
+              {selectedIsPast && <span className="ml-2 text-xs font-normal text-muted">Charged</span>}
             </p>
             <ul className="mt-3 flex flex-col gap-2.5">
               {selectedCharges.map(({ subscription: sub }) => (
@@ -153,7 +166,7 @@ export function RenewalCalendar({ subscriptions, today }: RenewalCalendarProps) 
             </ul>
           </>
         ) : (
-          <p className="text-sm text-muted">Nothing renews in the rest of this month.</p>
+          <p className="text-sm text-muted">Nothing renews this month.</p>
         )}
       </div>
     </Card>

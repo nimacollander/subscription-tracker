@@ -44,6 +44,33 @@ describe("getChargesBetween", () => {
     ]);
   });
 
+  it("infers charges made earlier in the range when given today", () => {
+    // Anchor Oct 20; today Oct 18 → Aug 20 and Sep 20 already happened.
+    expect(
+      getChargesBetween([make("A")], "2026-08-01", "2026-11-01", "2026-10-18").map((c) => c.date),
+    ).toEqual(["2026-08-20", "2026-09-20", "2026-10-20"]);
+    expect(
+      getChargesBetween([make("W", { billingCycle: "weekly" })], "2026-10-01", "2026-10-21", "2026-10-18").map((c) => c.date),
+    ).toEqual(["2026-10-06", "2026-10-13", "2026-10-20"]);
+  });
+
+  it("never infers a charge between today and the next billing date", () => {
+    // Next billing Nov 20 means nothing is charged on Oct 20, even though it's one cycle back.
+    expect(
+      getChargesBetween([make("A", { nextBillingDate: "2026-11-20" })], "2026-10-01", "2026-11-01", "2026-10-18").map((c) => c.date),
+    ).toEqual([]);
+  });
+
+  it("keeps month-end dates when stepping back", () => {
+    expect(
+      getChargesBetween([make("A", { nextBillingDate: "2026-03-31" })], "2026-02-01", "2026-04-01", "2026-03-15").map((c) => c.date),
+    ).toEqual(["2026-02-28", "2026-03-31"]);
+  });
+
+  it("does not look backwards without today", () => {
+    expect(summary([make("A")], "2026-08-01", "2026-11-01")).toEqual(["2026-10-20 A"]);
+  });
+
   it("skips paused subscriptions", () => {
     expect(summary([make("A", { status: "paused" })], "2026-10-01", "2026-12-01")).toEqual([]);
   });
